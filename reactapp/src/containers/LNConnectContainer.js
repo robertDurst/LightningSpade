@@ -12,6 +12,7 @@ class LNConnectContainer extends React.Component {
 
       this.state.socket.on("CONNECT_SUCCESS", function(data){
         alert("Node is connected!")
+        window.location.hash = '/main';
       });
 
       this.state.socket.on("CONNECT_FAILURE", function(data){

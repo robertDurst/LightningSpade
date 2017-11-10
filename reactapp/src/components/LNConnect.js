@@ -11,7 +11,7 @@ class LNConnect extends Component {
     return (
       <div className={'LNConnect_container'}>
         <RaisedButton
-          className={'connect_button'}
+          className={'connect_button_connectNode'}
           label="Connect"
           onClick={this.props.clickHandler}
         />
