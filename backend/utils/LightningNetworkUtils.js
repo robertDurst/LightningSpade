@@ -5,7 +5,10 @@ var lndCert = fs.readFileSync("./lnd_connect_docs/tls.cert");
 var credentials = grpc.credentials.createSsl(lndCert);
 var lnrpcDescriptor = grpc.load("./lnd_connect_docs/rpc.proto");
 var lnrpc = lnrpcDescriptor.lnrpc;
-var lightning = new lnrpc.Lightning('localhost:10001', credentials);
+var lightning = new lnrpc.Lightning('localhost:10003', credentials);
+var ByteBuffer = require('bytebuffer');
+var bitcore = require('bitcore-lib');
+const BufferUtil = bitcore.util.buffer;
 
 function getInfo(cb) {
   lightning.getInfo({}, function(err, response) {
@@ -40,10 +43,34 @@ function getWalletBalance(cb) {
   })
 }
 
+function openChannel(pk, amount) {
+  const dest_pubkey_bytes = ByteBuffer.fromHex(pk);
+  return lightning.openChannel({
+    node_pubkey: dest_pubkey_bytes,
+    local_funding_amount: amount,
+  })
+}
+
+function closeChannel(channel_point) {
+  // var formatted_funding_txid = funding_txid.match(/.{2}/g).reverse().join("");
+  // var dest_pubkey_bytes = BufferUtil.hexToBuffer(rex);
+  // return lightning.closeChannel({
+  //     channel_point: {
+  //       funding_txid: dest_pubkey_bytes,
+  //       output_index: parseInt(output_index)
+  //     }
+  //   })
+  return lightning.closeChannel({
+    channel_point
+  })
+}
+
 module.exports = {
   getInfo,
   listPeers,
   disconnectPeer,
   connectPeer,
-  getWalletBalance
+  getWalletBalance,
+  openChannel,
+  closeChannel
 }
