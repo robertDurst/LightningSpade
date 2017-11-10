@@ -1,8 +1,13 @@
-function rootReducer(state = {}, action) {
-    switch (action.type) {
-        default:
-            return state;
-    }
-}
+import { combineReducers } from 'redux';
 
-export default rootReducer;
+import socketReducer from './socketReducer'
+import rootReducer from './rootReducer'
+import channelReducer from './channelReducer'
+
+const indexReducer = combineReducers({
+  socket: socketReducer,
+  channel: channelReducer,
+  rootReducer
+});
+
+export default indexReducer;

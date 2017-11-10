@@ -23,7 +23,45 @@ io.on('connection', function (socket) {
   })
 
   socket.on('OPEN_CHANNEL', function (peer) {
-    console.log("Open Channel", peer);
+    console.log(peer.pub_key);
+    const call = LightningUtils.openChannel(peer.pub_key, 1000000);
+
+    call.on('data', function(message) {
+      if(message.update === 'chan_pending') {
+        socket.emit('PENDING_CHANNEL');
+      } else if(message.update === 'chan_open'){
+        console.log(message.chan_open.channel_point);
+        socket.emit('OPEN_CHANNEL', message.chan_open.channel_point);
+      }
+    });
+    call.on('end', function() {
+        // The server has finished sending
+        console.log("END");
+      });
+    call.on('status', function(status) {
+      // Process status
+      console.log("Current status: " + status);
+    });
+  });
+
+  socket.on('CLOSE_CHANNEL', function (channel_point) {
+    const call = LightningUtils.closeChannel(channel_point);
+
+    call.on('data', function(message) {
+      if(message.update === 'close_pending') {
+        socket.emit('PENDING_CHANNEL');
+      } else if(message.update === 'chan_close'){
+        socket.emit('CLOSE_CHANNEL');
+      }
+    });
+    call.on('end', function() {
+        // The server has finished sending
+        console.log("END");
+      });
+    call.on('status', function(status) {
+      // Process status
+      console.log("Current status: " + status);
+    });
   });
 
   socket.on('CONNECT_PEER', function (peer) {

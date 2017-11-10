@@ -119,7 +119,7 @@ class LNConnect extends Component {
             className={'connect_button'}
             onClick={this.handleClick_Connect.bind(this)}
           />
-          <h1 className={'Funds_label'}>Funds: {this.props.balance} BTC</h1>
+          <h1 className={'Funds_label'}>Funds: {this.props.balance/100000000.0} BTC</h1>
         </div>
         <div className={'Peer_container'}>
           <div className={'Peer_list_content_container'}>
