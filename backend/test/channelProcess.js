@@ -1,5 +1,6 @@
-var chai = require('chai');
-var Lightning = require('../utils/LightningNetworkUtils');
+const chai = require('chai');
+const Lightning = require('../utils/LightningNetworkUtils');
+var shell_cmd = require('shelljs')
 
 var assert = chai.assert;
 
@@ -60,24 +61,60 @@ describe('Connect to a specified peer', function(){
 
 });
 
-describe('Open a channel with a peer', function(){
-  // Remember that this is satoshi's so 0.16 BTC = 1600000 sats
-  // Not really necessary to have some many sats. The reason
-  // 0.16 BTC required here is because we are testing with a max
-  // sized channel.
-  it('need a minimum balance of 0.16 BTC to open a channel', async function() {
-    try {
-      const response = await Lightning.getWalletBalance();
-      assert.isAbove(parseInt(response.balance), 16000000);
-    } catch(err) {
-      assert.equal(err, undefined,  "\n\nExpected wallet balance to be above 0.16 BTC\nTO FIX: Use a faucet (testnet), beg for BTC (mainnet), or mine (regtest/simtest)\n\n");
-    }
-  });
-});
+// describe('Open a channel with a peer', function(){
+//   // Remember that this is satoshi's so 0.16 BTC = 1600000 sats
+//   // Not really necessary to have some many sats. The reason
+//   // 0.16 BTC required here is because we are testing with a max
+//   // sized channel.
+//   it('need a minimum balance of 0.16 BTC to open a channel', async function() {
+//     try {
+//       const response = await Lightning.getWalletBalance();
+//       assert.isAbove(parseInt(response.balance), 16000000);
+//     } catch(err) {
+//       assert.equal(err, undefined,  "\n\nExpected wallet balance to be above 0.16 BTC\nTO FIX: Use a faucet (testnet), beg for BTC (mainnet), or mine (regtest/simtest)\n\n");
+//     }
+//   });
+//
+//   it('should open a channel', async function(){
+//
+//     // Check that the channel is now confirmed open
+//     try {
+//       // Open a channel
+//
+//       await Lightning.testOpenChannel(peer_pk, 16000000);
+//
+//       // // Mine a block
+//       shell_cmd.exec("btcctl --simnet --rpcuser=kek --rpcpass=kek generate 1");
+//       const response = await Lightning.getOpenChannels();
+//       assert.lengthOf(response.channels, 1);
+//     } catch(err) {
+//       assert.equal(err, undefined, "\n\n Expected there to be one channel open\n\n")
+//     }
+//   });
+//
+// });
 
-describe('Close a channel with a peer', function(){
-
-});
+// describe('Close a channel with a peer', function(){
+//   it('should close a channel to pending state', async function() {
+//
+//     try {
+//       const response1 = await Lightning.getOpenChannels();
+//       assert.lengthOf(response1.channels, 1);
+//       var call = Lightning.closeTestChannel(response1.channels[0].channel_point);
+//       call.on('data', async function(message) {
+//         if(message.update === 'close_pending') {
+//           shell_cmd.exec("btcctl --simnet --rpcuser=kek --rpcpass=kek generate 1");
+//         } else if(message.update === 'chan_close'){
+//           const response2 = await Lightning.getOpenChannels();
+//           assert.lengthOf(response2.channels, 0);
+//         }
+//       });
+//     } catch(err) {
+//       assert.equal(err, undefined, "\n\n Expected there to be no channels open\n\n")
+//     }
+//   });
+//
+// });
 
 describe('Disconnect from a peer', function(){
   it('should still be connected to specified peer\nPK: '+peer_pk+'\nIP: '+peer_ip, async function() {

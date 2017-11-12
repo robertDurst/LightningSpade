@@ -1,17 +1,17 @@
-var grpc = require('grpc');
-var fs = require('fs');
-var path = require('path');
-var lndCert = fs.readFileSync("./lnd_connect_docs/tls.cert");
-var credentials = grpc.credentials.createSsl(lndCert);
-var lnrpcDescriptor = grpc.load("./lnd_connect_docs/rpc.proto");
-var lnrpc = lnrpcDescriptor.lnrpc;
-var lightning = new lnrpc.Lightning('localhost:10003', credentials);
-var ByteBuffer = require('bytebuffer');
-var bitcore = require('bitcore-lib');
-var Bluebird = require('bluebird');
+const grpc = require('grpc');
+const fs = require('fs');
+const path = require('path');
+const lndCert = fs.readFileSync("./lnd_connect_docs/tls.cert");
+const credentials = grpc.credentials.createSsl(lndCert);
+const lnrpcDescriptor = grpc.load("./lnd_connect_docs/rpc.proto");
+const lnrpc = lnrpcDescriptor.lnrpc;
+const lightning = new lnrpc.Lightning('localhost:10003', credentials);
+const ByteBuffer = require('bytebuffer');
+const bitcore = require('bitcore-lib');
+const Bluebird = require('bluebird');
 const BufferUtil = bitcore.util.buffer;
 
-function getInfo() {
+getInfo = () => {
   return new Promise( function(resolve, reject){
     lightning.getInfo({}, function(err, response) {
       err ? reject(err) : resolve(response);
@@ -19,7 +19,7 @@ function getInfo() {
   })
 }
 
-function listPeers() {
+listPeers = () => {
   return new Promise( function(resolve, reject){
     lightning.listPeers({}, function(err, response) {
       err ? reject(err) : resolve(response);
@@ -27,7 +27,7 @@ function listPeers() {
   })
 }
 
-function disconnectFromPeer(peer_pk) {
+disconnectFromPeer = (peer_pk) => {
   return new Promise( function(resolve, reject){
     lightning.disconnectPeer({ pub_key: peer_pk}, function(err, response) {
       err ? reject(err) : resolve(response);
@@ -35,7 +35,7 @@ function disconnectFromPeer(peer_pk) {
   })
 }
 
-function connectPeer(peer_pk, peer_ip) {
+connectPeer = (peer_pk, peer_ip) => {
   return new Promise( function(resolve, reject){
     lightning.connectPeer({addr: {
       pubkey: peer_pk,
@@ -46,7 +46,7 @@ function connectPeer(peer_pk, peer_ip) {
   })
 }
 
-function getWalletBalance() {
+getWalletBalance = () => {
   return new Promise( function(resolve, reject){
     lightning.walletBalance({}, function(err, response) {
       err ? reject(err) : resolve(response);
@@ -54,7 +54,23 @@ function getWalletBalance() {
   })
 }
 
-function openChannel(pk, amount) {
+getPendingChannels = () => {
+  return new Promise( function(resolve, reject){
+    lightning.pendingChannels({}, function(err, response) {
+      err ? reject(err) : resolve(response);
+    });
+  })
+}
+
+getOpenChannels = () => {
+  return new Promise( function(resolve, reject){
+    lightning.listChannels({}, function(err, response) {
+      err ? reject(err) : resolve(response);
+    });
+  })
+}
+
+openChannel = (pk, amount) => {
   const dest_pubkey_bytes = ByteBuffer.fromHex(pk);
   return lightning.openChannel({
     node_pubkey: dest_pubkey_bytes,
@@ -62,11 +78,33 @@ function openChannel(pk, amount) {
   })
 }
 
+testOpenChannel = (pk, amount) => {
+  const dest_pubkey_bytes = ByteBuffer.fromHex(pk);
+  return new Promise( function(resolve, reject){
+    lightning.openChannelSync({
+      node_pubkey: dest_pubkey_bytes,
+      local_funding_amount: amount,
+      node_pubkey_string: pk,
+    }, function(err, response) {
+      err ? reject(err) : resolve(response);
+    });
+  })
+}
 
-function closeChannel(channel_point) {
+
+closeChannel = (channel_point) => {
   return lightning.closeChannel({
     channel_point
   })
+}
+
+closeTestChannel = (channel_point) => {
+  return lightning.closeChannel({
+    channel_point: {
+          funding_txid: BufferUtil.hexToBuffer(channel_point.split(":")[0].match(/.{2}/g).reverse().join("")),
+            output_index: parseInt(channel_point.split(":")[1])
+      }
+    })
 }
 
 module.exports = {
@@ -75,6 +113,10 @@ module.exports = {
   disconnectFromPeer,
   connectPeer,
   getWalletBalance,
+  getPendingChannels,
+  getOpenChannels,
   openChannel,
   closeChannel,
+  testOpenChannel,
+  closeTestChannel
 }
