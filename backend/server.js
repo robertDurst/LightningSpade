@@ -4,14 +4,13 @@ var io = require('socket.io')(3001);
 io.on('connection', function (socket) {
   console.log("New connection.");
 
-  socket.on('CONNECT', function (data) {
-    LightningUtils.getInfo((response) =>{
-      if(response){
-        socket.emit("CONNECT_SUCCESS", response);
-      } else {
-        socket.emit("CONNECT_FAILURE");
-      }
-    })
+  socket.on('CONNECT', async function (data) {
+    try {
+      const response = await LightningUtils.getInfo();
+      socket.emit("CONNECT_SUCCESS", response);
+    } catch(err) {
+      socket.emit("CONNECT_FAILURE");
+    }
   });
 
   socket.on('GET_PEERS', function (data) {
@@ -64,38 +63,41 @@ io.on('connection', function (socket) {
     });
   });
 
-  socket.on('CONNECT_PEER', function (peer) {
-    LightningUtils.connectPeer(peer.pk, peer.ip, function(response){
+  socket.on('CONNECT_PEER', async function (peer) {
+    try {
+      const response = await LightningUtils.connectPeer(peer.pk, peer.ip);
       getPeers(socket);
-    })
+    } catch(err) {
+      socket.emit("CONNECT_FAILURE");
+    }
   });
 
-  socket.on('DISCONNECT_PEER', function (peer) {
-    LightningUtils.disconnectPeer(peer.pub_key, function(response){
+  socket.on('DISCONNECT_PEER', async function (peer) {
+    try {
+      const response = await LightningUtils.disconnectFromPeer(peer.pub_key);
       getPeers(socket);
-    })
+    } catch(err) {
+      socket.emit("CONNECT_FAILURE");
+    }
   });
 
 });
 
 
-function getPeers(socket){
-  LightningUtils.listPeers((response) =>{
-    if(response){
-      socket.emit("PEER_INFO", response);
-    } else {
-      socket.emit("CONNECT_FAILURE");
-    }
-  })
+async function getPeers(socket){
+  try {
+    const response = await LightningUtils.listPeers();
+    socket.emit("PEER_INFO", response);
+  } catch(err) {
+    socket.emit("CONNECT_FAILURE");
+  }
 }
 
-function getWalletBalance(socket){
-  LightningUtils.getWalletBalance((response) =>{
-    console.log(response);
-    if(response){
-      socket.emit("WALLET_INFO", response.balance);
-    } else {
-      socket.emit("CONNECT_FAILURE");
-    }
-  })
+async function getWalletBalance(socket){
+  try {
+    const response = await LightningUtils.getWalletBalance();
+    socket.emit("WALLET_INFO", response.balance);
+  } catch(err) {
+    socket.emit("CONNECT_FAILURE");
+  }
 }
