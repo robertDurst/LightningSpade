@@ -1,10 +1,9 @@
 # LightningSpade
 
-## Styling Information
-Background-color: #FFCA28
+*Overview:* Lightning Spade is a proof of concept implementation of a poker game utilizing the Lightning Network for:
 
-## Connection Information
-* Bitcoin Segwit Node in background for opening channels port:????
-* Lightning Node port: 10002
-* React App port: 3000
-* Backend LND interactions and Socket for event listening port: 3001
+a) fast, cheap, realtime transactions
+b) trustless peer interactions
+c) painless withdrawls
+
+Right now it is under development as part of my final project at Horizon's School of Technology. It will be finished roughly around the end of December. It utilizes the Lightning Network Daemon implementation from lightning.network and Roasbeef's forked segwit implementation. 
