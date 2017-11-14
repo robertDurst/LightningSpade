@@ -1,25 +1,31 @@
 import React from 'react';
 import LNConnect from '../components/LNConnect';
 import io from 'socket.io-client';
-import { socketConnect } from '../actions/index';
+import { socketConnect, channelConnect, channelPending } from '../actions/index';
 import { connect } from 'react-redux';
 
 class LNConnectContainer extends React.Component {
-  constructor() {
-      super();
+  constructor(props) {
+      super(props);
     }
 
-  componentWillMount() {
+  componentDidMount() {
     const connected_socket = io("http://localhost:3001");
-
+      var self = this;
       connected_socket.on("CONNECT_SUCCESS", function(data){
-        console.log("here");
         alert("Node is connected!")
-        window.location.hash = '/main';
+        if(data.pending_open_channels || data.pending_open_channels){
+          self.props.onChannelPending(data.channel_data);
+          window.location.hash = '/pendingchannel';
+        }
+        else if(data.open_channels){
+          self.props.onChannelOpen(data.channel_data);
+          window.location.hash = '/pokergameroom';
+        }
+        else window.location.hash = '/main';
       });
 
       connected_socket.on("CONNECT_FAILURE", function(data){
-        console.log("here");
         alert("Failure!")
       });
 
@@ -37,16 +43,19 @@ class LNConnectContainer extends React.Component {
   }
 };
 
-const mapStateToProps = (state) => {
-  return {
-    socket: state.socket
-  }
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
+    onChannelOpen: (channel) => dispatch(channelConnect(channel)),
+    onChannelPending: (channel) => dispatch(channelPending(channel)),
     onSocketConnect: (socket) => dispatch(socketConnect(socket)),
   };
+};
+
+const mapStateToProps = (state) => {
+  return {
+    socket: state.socket,
+    channel: state.channel
+  }
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LNConnectContainer);

@@ -20,6 +20,13 @@ export function channelConnect(channel) {
   };
 }
 
+export function channelPending(channel) {
+  return {
+    type: types.CHANNEL_PENDING,
+    channel
+  };
+}
+
 export function channelDisconnect() {
   return {
     type: types.CHANNEL_DISCONNECT,
