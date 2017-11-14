@@ -17,6 +17,7 @@ io.on('connection', function (socket) {
       }
       if(pending_open_channels) {
         channel_info = response_channels_pending.pending_open_channels[0]
+        console.log(channel_info);
         const call = LightningUtils.subscribeChannelNotifications();
         call.on('data', async function(message) {
           if(message.channel_updates[0] && message.channel_updates[0] && message.channel_updates[0].routing_policy.connecting_node === channel_info.channel.remote_pubkey){
@@ -30,10 +31,10 @@ io.on('connection', function (socket) {
       if(pending_closing_channels) {
         channel_info = response_channels_pending.pending_closing_channels[0]
         const call = LightningUtils.subscribeChannelNotifications();
-        const user_info = await LightningUtils.getInfo();
-        console.log(user_info);
         call.on('data', async function(message) {
-          socket.emit('CLOSE_CHANNEL');
+          if(toHexString(message.closed_chans[0].chan_point.funding_txid) === channel_info.channel.channel_point.split(":")[0]){
+            socket.emit('CLOSE_CHANNEL');
+          }
         });
       }
       socket.emit("CONNECT_SUCCESS", {pending_closed_channels: pending_closing_channels, pending_open_channels: pending_open_channels, open_channels: open_channels, channel_data: pending_open_channels || pending_closing_channels || open_channels ? channel_info : undefined});
@@ -114,8 +115,8 @@ async function getWalletBalance(socket){
   }
 }
 
-function toHexString(byteArray) {
-  return Array.from(byteArray, function(byte) {
-    return ('0' + (byte & 0xFF).toString(16)).slice(-2);
-  }).join('')
+function toHexString(buffer){
+  var str = buffer.toString('hex')
+	var reversed = str.split("").reverse();
+	return reversed.map((x,i) => !((i+1)%2) ? reversed[i-1] : reversed[i+1]).join("");
 }

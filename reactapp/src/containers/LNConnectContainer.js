@@ -14,7 +14,7 @@ class LNConnectContainer extends React.Component {
       var self = this;
       connected_socket.on("CONNECT_SUCCESS", function(data){
         alert("Node is connected!")
-        if(data.pending_open_channels || data.pending_open_channels){
+        if(data.pending_closed_channels || data.pending_open_channels){
           self.props.onChannelPending(data.channel_data);
           window.location.hash = '/pendingchannel';
         }
