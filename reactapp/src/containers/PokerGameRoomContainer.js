@@ -8,6 +8,10 @@ class PokerGameRoomContainer extends React.Component {
       super();
   }
 
+  componentDidMount() {
+    if(!this.props.socket) window.location.hash = '/';
+  }
+
   closeChannel() {
     this.props.socket.emit('CLOSE_CHANNEL', this.props.channel);
 
@@ -17,7 +21,7 @@ class PokerGameRoomContainer extends React.Component {
   }
 
   render() {
-    console.log("POKER", this.props);
+    console.log("POKER", this.props.channel);
     return (
       <PokerGameRoom closeChannel={this.closeChannel.bind(this)}/>
     );

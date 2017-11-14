@@ -27,6 +27,22 @@ listPeers = () => {
   })
 }
 
+listOpenChannels = () => {
+  return new Promise( function(resolve, reject){
+    lightning.listChannels({}, function(err, response) {
+      err ? reject(err) : resolve(response);
+    });
+  })
+}
+
+listPendingChannels = () => {
+  return new Promise( function(resolve, reject){
+    lightning.pendingChannels({}, function(err, response) {
+      err ? reject(err) : resolve(response);
+    });
+  })
+}
+
 disconnectFromPeer = (peer_pk) => {
   return new Promise( function(resolve, reject){
     lightning.disconnectPeer({ pub_key: peer_pk}, function(err, response) {
@@ -91,25 +107,31 @@ testOpenChannel = (pk, amount) => {
   })
 }
 
-
 closeChannel = (channel_point) => {
-  return lightning.closeChannel({
-    channel_point
-  })
+  if (typeof channel_point === 'string'){
+    return lightning.closeChannel({
+      channel_point: {
+            funding_txid: BufferUtil.hexToBuffer(channel_point.split(":")[0].match(/.{2}/g).reverse().join("")),
+              output_index: parseInt(channel_point.split(":")[1])
+        }
+      })
+  } else {
+    return lightning.closeChannel({
+      channel_point
+    })
+  }
+
 }
 
-closeTestChannel = (channel_point) => {
-  return lightning.closeChannel({
-    channel_point: {
-          funding_txid: BufferUtil.hexToBuffer(channel_point.split(":")[0].match(/.{2}/g).reverse().join("")),
-            output_index: parseInt(channel_point.split(":")[1])
-      }
-    })
+subscribeChannelNotifications = () => {
+  return lightning.subscribeChannelGraph({})
 }
 
 module.exports = {
   getInfo,
   listPeers,
+  listOpenChannels,
+  listPendingChannels,
   disconnectFromPeer,
   connectPeer,
   getWalletBalance,
@@ -118,5 +140,5 @@ module.exports = {
   openChannel,
   closeChannel,
   testOpenChannel,
-  closeTestChannel
+  subscribeChannelNotifications
 }
