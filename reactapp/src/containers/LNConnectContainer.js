@@ -19,7 +19,7 @@ class LNConnectContainer extends React.Component {
           window.location.hash = '/pendingchannel';
         }
         else if(data.open_channels){
-          self.props.onChannelOpen(data.channel_data);
+          self.props.onChannelOpen(data.channel_data, data.players);
           window.location.hash = '/pokergameroom';
         }
         else window.location.hash = '/main';
@@ -45,7 +45,7 @@ class LNConnectContainer extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onChannelOpen: (channel) => dispatch(channelConnect(channel)),
+    onChannelOpen: (channel, gameState) => dispatch(channelConnect(channel, gameState)),
     onChannelPending: (channel) => dispatch(channelPending(channel)),
     onSocketConnect: (socket) => dispatch(socketConnect(socket)),
   };
@@ -54,7 +54,8 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     socket: state.socket,
-    channel: state.channel
+    channel: state.channel,
+    gameState: state.gameState
   }
 };
 

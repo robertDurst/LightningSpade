@@ -21,9 +21,9 @@ class PokerGameRoomContainer extends React.Component {
   }
 
   render() {
-    console.log("POKER", this.props.channel);
+    console.log("POKER", this.props.gameState);
     return (
-      <PokerGameRoom closeChannel={this.closeChannel.bind(this)}/>
+      <PokerGameRoom closeChannel={this.closeChannel.bind(this)} players={this.props.gameState}/>
     );
   }
 };
@@ -31,7 +31,8 @@ class PokerGameRoomContainer extends React.Component {
 const mapStateToProps = (state) => {
   return {
     socket: state.socket,
-    channel: state.channel
+    channel: state.channel,
+    gameState: state.gameState,
   }
 };
 

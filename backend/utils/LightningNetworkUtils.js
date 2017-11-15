@@ -19,6 +19,16 @@ getInfo = () => {
   })
 }
 
+signMessage = (msg) => {
+  return new Promise( function(resolve, reject){
+    lightning.signMessage({
+      msg
+    }, function(err, response) {
+      err ? reject(err) : resolve(response);
+    });
+  })
+}
+
 listPeers = () => {
   return new Promise( function(resolve, reject){
     lightning.listPeers({}, function(err, response) {
@@ -129,6 +139,7 @@ subscribeChannelNotifications = () => {
 
 module.exports = {
   getInfo,
+  signMessage,
   listPeers,
   listOpenChannels,
   listPendingChannels,

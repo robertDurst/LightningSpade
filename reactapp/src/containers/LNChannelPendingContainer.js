@@ -14,7 +14,7 @@ class LNChannelPendingContainer extends React.Component {
     else {
       const self = this;
       this.props.socket.on("OPEN_CHANNEL", function(data){
-        self.props.onChannelOpen(data);
+        self.props.onChannelOpen(data.channel_info, data.players);
         window.location.hash = '/pokergameroom';
       });
       this.props.socket.on("CLOSE_CHANNEL", function(data){
@@ -34,7 +34,7 @@ class LNChannelPendingContainer extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onChannelOpen: (channel) => dispatch(channelConnect(channel)),
+    onChannelOpen: (channel, gameState) => dispatch(channelConnect(channel, gameState)),
     onChannelClose: () => dispatch(channelDisconnect()),
   };
 };
@@ -42,7 +42,8 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     socket: state.socket,
-    channel: state.channel
+    channel: state.channel,
+    gameState: state.gameState,
   }
 };
 

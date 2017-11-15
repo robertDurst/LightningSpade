@@ -1,6 +1,6 @@
 const LightningUtils = require('./utils/LightningNetworkUtils');
 const io = require('socket.io')(3001);
-
+const hostConnectionSocket = require('./hostSocketConnector.js')
 io.on('connection', function (socket) {
   console.log("New connection.");
 
@@ -14,16 +14,18 @@ io.on('connection', function (socket) {
 
       if(open_channels) {
         channel_info = response_channels_open.channels[0]
+        hostConnectionSocket.reconnect("http://localhost:3002", socket, channel_info);
+        return;
       }
+
       if(pending_open_channels) {
         channel_info = response_channels_pending.pending_open_channels[0]
-        console.log(channel_info);
         const call = LightningUtils.subscribeChannelNotifications();
         call.on('data', async function(message) {
           if(message.channel_updates[0] && message.channel_updates[0] && message.channel_updates[0].routing_policy.connecting_node === channel_info.channel.remote_pubkey){
             const response = await LightningUtils.listOpenChannels();
             channel_info = response.channels[0];
-            socket.emit('OPEN_CHANNEL', channel_info);
+            hostConnectionSocket.connect("http://localhost:3002", socket, channel_info);
           }
         });
       }
@@ -59,7 +61,7 @@ io.on('connection', function (socket) {
       if(message.update === 'chan_pending') {
         socket.emit('PENDING_CHANNEL');
       } else if(message.update === 'chan_open'){
-        socket.emit('OPEN_CHANNEL', message.chan_open);
+        hostConnectionSocket.connect("http://localhost:3002", socket, message.chan_open);
       }
     });
   });
