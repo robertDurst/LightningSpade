@@ -13,10 +13,11 @@ export function socketDisconnect() {
   };
 }
 
-export function channelConnect(channel) {
+export function channelConnect(channel, gameState) {
   return {
     type: types.CHANNEL_CONNECT,
-    channel
+    channel,
+    gameState
   };
 }
 
