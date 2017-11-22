@@ -14,7 +14,7 @@ class LNChannelPendingContainer extends React.Component {
     else {
       const self = this;
       this.props.socket.on("OPEN_CHANNEL", function(data){
-        self.props.onChannelOpen(data.channel_info, data.players);
+        self.props.onChannelOpen(data.channel_info, data.gameState);
         window.location.hash = '/pokergameroom';
       });
       this.props.socket.on("CLOSE_CHANNEL", function(data){

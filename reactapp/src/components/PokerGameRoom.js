@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../stylesheets/PokerGameRoom.css';
 import RaisedButton from 'material-ui/RaisedButton';
 import Player from './Player';
+import PokerTable from './PokerTable';
 
 class PokerGameRoom extends Component {
   constructor(props) {
@@ -26,7 +27,9 @@ class PokerGameRoom extends Component {
                 <Player player={this.props.players[2]}/>
                 <Player player={this.props.players[3]}/>
               </div>
-              <div className={'pokertable-container'}></div>
+              <div className={'pokertable-container'}>
+                <PokerTable spread={this.props.spread}/>
+              </div>
               <div className={'bottom-player-container'}>
                 <Player player={this.props.players[4]}/>
                 <Player player={this.props.players[5]}/>

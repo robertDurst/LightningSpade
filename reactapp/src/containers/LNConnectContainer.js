@@ -19,7 +19,8 @@ class LNConnectContainer extends React.Component {
           window.location.hash = '/pendingchannel';
         }
         else if(data.open_channels){
-          self.props.onChannelOpen(data.channel_data, data.players);
+          console.log("here", this.props);
+          self.props.onChannelOpen(data.channel_data, data.gameState);
           window.location.hash = '/pokergameroom';
         }
         else window.location.hash = '/main';

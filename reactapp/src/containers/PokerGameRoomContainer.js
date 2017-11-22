@@ -4,8 +4,8 @@ import io from 'socket.io-client';
 import { connect } from 'react-redux';
 
 class PokerGameRoomContainer extends React.Component {
-  constructor() {
-      super();
+  constructor(props) {
+      super(props);
   }
 
   componentDidMount() {
@@ -21,12 +21,23 @@ class PokerGameRoomContainer extends React.Component {
   }
 
   render() {
-    console.log("POKER", this.props.gameState);
     return (
-      <PokerGameRoom closeChannel={this.closeChannel.bind(this)} players={this.props.gameState}/>
+      <PokerGameRoom closeChannel={this.closeChannel.bind(this)} players={this.props.gameState.playerContainer.players} spread={spreadToCardArray(this.props.gameState.spread)}/>
     );
   }
 };
+
+function spreadToCardArray(spread){
+  let returnArr = [];
+  for(var i = 0; i < 5; i ++) {
+    if(spread[i]){
+      console.log(spread[i]);
+      returnArr.push(spread[i].value.toString()+"_"+spread[i].suite);
+    }
+    else returnArr.push('null');
+  }
+  return returnArr;
+}
 
 const mapStateToProps = (state) => {
   return {
