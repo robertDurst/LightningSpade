@@ -8,8 +8,9 @@ class LNChannelPending extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Channel Pending, Please Wait</h1>
+      <div className={'LNChannelPending_container'}>
+        <img src='https://media.giphy.com/media/26u4nsirFNig64Wwo/giphy.gif' />
+        <h1>Channel Pending the mining of a block, please wait!</h1>
       </div>
     );
   }
