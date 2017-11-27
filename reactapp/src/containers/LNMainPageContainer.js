@@ -1,5 +1,7 @@
+// This file contains the main page container. This deals with
+// the logic that comes with the main page component.
+
 import React from 'react';
-import io from 'socket.io-client';
 import LNMainPage from '../components/LNMainPage';
 import { connect } from 'react-redux';
 

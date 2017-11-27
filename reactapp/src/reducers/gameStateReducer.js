@@ -1,3 +1,5 @@
+// This reducer keeps track of the game state object.
+
 import * as types from '../actions/types';
 
 const gameStateReducer = (state = [], action) => {

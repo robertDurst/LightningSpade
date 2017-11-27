@@ -1,3 +1,7 @@
+// This reducer keeps track of the socket the node connects to
+// the host with. This is important for creating a persistent
+// connection across views.
+
 import * as types from '../actions/types';
 
 const socketReducer = (state = "", action) => {

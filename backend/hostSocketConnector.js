@@ -16,8 +16,8 @@ async function connect(address, socket, channel_info){
     host_socket.emit("ID_VERIFY", response)
   });
 
-  host_socket.on('ID_VERIFIED', async function(players) {
-    socket.emit('OPEN_CHANNEL', { channel_info: channel_info, players: players});
+  host_socket.on('ID_VERIFIED', async function(gameState) {
+    socket.emit('OPEN_CHANNEL', { channel_info: channel_info, gameState: gameState});
   });
 }
 
@@ -34,8 +34,8 @@ async function reconnect(address, socket, channel_info){
     host_socket.emit("ID_VERIFY", response)
   });
 
-  host_socket.on('ID_VERIFIED', async function(players) {
-      socket.emit("CONNECT_SUCCESS", {pending_closed_channels: false, pending_open_channels: false, open_channels: true, channel_data: channel_info, players: players});
+  host_socket.on('ID_VERIFIED', async function(gameState) {
+      socket.emit("CONNECT_SUCCESS", {pending_closed_channels: false, pending_open_channels: false, open_channels: true, channel_data: channel_info, gameState: gameState});
   });
 }
 

@@ -1,46 +1,42 @@
-import React, { Component } from 'react';
+// This file contains the poker game room component.
+// This component is made up of players and a poker
+// table and is Lightning Spade's main game room.
+
+import React from 'react';
 import '../stylesheets/PokerGameRoom.css';
-import RaisedButton from 'material-ui/RaisedButton';
+import {RaisedButton} from 'material-ui/';
 import Player from './Player';
+import PokerTable from './PokerTable';
 
-class PokerGameRoom extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div className={'pokergameroom-container'}>
-        <RaisedButton
-          label="Leave"
-          onClick={() => this.props.closeChannel()}
-          style={{position: 'absolute', left: 0, top: 0}}
-        />
-        <div className={'pokergameroom'}>
-            <div className={'left_player-container'}>
-              <Player player={this.props.players[0]}/>
-            </div>
-            <div className={'body_pokertable-container'}>
-              <div className={'top-player-container'}>
-                <Player player={this.props.players[1]}/>
-                <Player player={this.props.players[2]}/>
-                <Player player={this.props.players[3]}/>
-              </div>
-              <div className={'pokertable-container'}></div>
-              <div className={'bottom-player-container'}>
-                <Player player={this.props.players[4]}/>
-                <Player player={this.props.players[5]}/>
-                <Player player={this.props.players[6]}/>
-              </div>
-            </div>
-            <div className={'right_player-container'}>
-              <Player player={this.props.players[7]}/>
-            </div>
+export default ({players, spread, closeChannel}) => (
+  <div className={'pokergameroom-container'}>
+    <RaisedButton
+      label="Leave"
+      onClick={() => closeChannel()}
+      style={{position: 'absolute', left: 0, top: 0}}
+    />
+    <div className={'pokergameroom'}>
+        <div className={'left_player-container'}>
+          <Player player={players[0]}/>
         </div>
-
-      </div>
-    );
-  }
-}
-
-export default PokerGameRoom;
+        <div className={'body_pokertable-container'}>
+          <div className={'top-player-container'}>
+            <Player player={players[1]}/>
+            <Player player={players[2]}/>
+            <Player player={players[3]}/>
+          </div>
+          <div className={'pokertable-container'}>
+            <PokerTable spread={spread}/>
+          </div>
+          <div className={'bottom-player-container'}>
+            <Player player={players[4]}/>
+            <Player player={players[5]}/>
+            <Player player={players[6]}/>
+          </div>
+        </div>
+        <div className={'right_player-container'}>
+          <Player player={players[7]}/>
+        </div>
+    </div>
+  </div>
+);

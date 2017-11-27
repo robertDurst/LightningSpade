@@ -1,3 +1,6 @@
+// This reducer keeps track of the channel object of the game
+// node that this node is currently connected with.
+
 import * as types from '../actions/types';
 
 const channelReducer = (state = "", action) => {
