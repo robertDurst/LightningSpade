@@ -1,18 +1,12 @@
-import React, { Component } from 'react';
+// This file contains the player component.
+// This component displays information
+// relevant to the player.
+
+import React from 'react';
 import '../stylesheets/Player.css';
 
-class Player extends Component {
-  constructor(props) {
-    super(props);
-  }
+export default ({player}) => (
+  <div className={player ? 'individual-player-container': 'individual-player-container-empty'}>
 
-  render() {
-    return (
-      <div className={this.props.player ? 'individual-player-container': 'individual-player-container-empty'}>
-
-      </div>
-    );
-  }
-}
-
-export default Player;
+  </div>
+);

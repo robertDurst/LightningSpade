@@ -1,14 +1,13 @@
+// This file contains the channel pending container. This deals with
+// the logic that comes with the channel pending component.
+// TODO consolidate socket logic to a single container of sorts.
+
 import React from 'react';
 import LNChannelPending from '../components/LNChannelPending';
-import io from 'socket.io-client';
 import { connect } from 'react-redux';
 import { channelConnect, channelDisconnect } from '../actions/index';
 
 class LNChannelPendingContainer extends React.Component {
-  constructor() {
-      super();
-  }
-
   componentDidMount() {
     if(!this.props.socket) window.location.hash = '/';
     else {
@@ -22,7 +21,6 @@ class LNChannelPendingContainer extends React.Component {
         window.location.hash = '/main';
       });
     }
-
   }
 
   render() {

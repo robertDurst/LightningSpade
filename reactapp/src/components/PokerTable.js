@@ -1,23 +1,20 @@
-import React, { Component } from 'react';
+// This file contains the poker table component.
+// For now, this just has the cards in the spread.
+
+import React from 'react';
 import '../stylesheets/PokerTable.css';
 import Card from "./Card";
 
-class PokerTable extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div className={'spread-container'}>
-        <Card card={this.props.spread[0]} />
-        <Card card={this.props.spread[1]} />
-        <Card card={this.props.spread[2]} />
-        <Card card={this.props.spread[3]} />
-        <Card card={this.props.spread[4]} />
-      </div>
-    );
-  }
-}
-
-export default PokerTable;
+// Here it seems like I could just use a loop to generate
+// all the cards in the spread, however I designed it this
+// way to keep the spacing and card placement consistent
+// with flexbox.
+export default ({spread}) => (
+  <div className={'spread-container'}>
+    <Card card={spread[0]} />
+    <Card card={spread[1]} />
+    <Card card={spread[2]} />
+    <Card card={spread[3]} />
+    <Card card={spread[4]} />
+  </div>
+);

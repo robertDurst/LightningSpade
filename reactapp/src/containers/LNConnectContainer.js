@@ -1,3 +1,9 @@
+// This file contains the landing page container. This deals with
+// the logic that comes with the landing page component.
+// This is probably the most complex container because it handles
+// redirect upon connection of the node. It must send the user to
+// the view according to the node's current state.
+
 import React from 'react';
 import LNConnect from '../components/LNConnect';
 import io from 'socket.io-client';
@@ -5,11 +11,7 @@ import { socketConnect, channelConnect, channelPending } from '../actions/index'
 import { connect } from 'react-redux';
 
 class LNConnectContainer extends React.Component {
-  constructor(props) {
-      super(props);
-    }
-
-  componentDidMount() {
+componentDidMount() {
     const connected_socket = io("http://localhost:3001");
       var self = this;
       connected_socket.on("CONNECT_SUCCESS", function(data){
@@ -19,7 +21,6 @@ class LNConnectContainer extends React.Component {
           window.location.hash = '/pendingchannel';
         }
         else if(data.open_channels){
-          console.log("here", this.props);
           self.props.onChannelOpen(data.channel_data, data.gameState);
           window.location.hash = '/pokergameroom';
         }

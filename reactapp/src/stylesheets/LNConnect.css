@@ -5,8 +5,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
 .connect_button_connectNode {
 
+}
+
+.connect_title_text {
+  font-size: 100pt;
 }

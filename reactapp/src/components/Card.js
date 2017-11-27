@@ -1,15 +1,21 @@
-import React, {Component} from 'react';
+/*
+  This file contains the card component. These individual components
+  make up the cards that are displayed on the table: PokerTable.js.
+
+  Hands down the shittiest code in the entire project. Unable to find a
+  proper way to store and reference SVG's in React, I chose to do a shit
+  workaround that involves storing all the SVG files on svgur.com and
+  then creating a massive switch statement here referencing each SVG.
+
+  TODO: Fix this garbage.
+*/
+
+import React from 'react';
 import '../stylesheets/Player.css';
-import ReactSVG from 'react-svg';
 
-class Card extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
+export default ({card}) => {
     let cardUrl;
-    switch (this.props.card) {
+    switch (card) {
       case "2_Heart":
         cardUrl = "http://svgur.com/s/3xa.svg"
         break;
@@ -169,13 +175,11 @@ class Card extends Component {
       default:
         cardUrl = undefined;
     }
-    return (<div className={'card-container'}>
-      {
-        cardUrl ? <img className={'card'} src={"http://svgur.com/i/" + cardUrl.split("/")[4]}/> : <div/>
-      }
-
-    </div>);
-  }
+    return (
+      <div className={'card-container'}>
+        {
+          cardUrl ? <img className={'card'} src={"http://svgur.com/i/" + cardUrl.split("/")[4]} alt={'card'}/> : <div/>
+        }
+      </div>
+    );
 }
-
-export default Card;
