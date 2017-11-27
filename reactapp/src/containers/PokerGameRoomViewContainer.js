@@ -2,10 +2,10 @@
 // the logic that comes with the poker game room component.
 
 import React from 'react';
-import PokerGameRoom from '../components/PokerGameRoom';
+import PokerGameRoomView from '../components/PokerGameRoomView';
 import { connect } from 'react-redux';
 
-class PokerGameRoomContainer extends React.Component {
+class PokerGameRoomViewContainer extends React.Component {
   componentWillMount() {
     if(!this.props.socket || !this.props.gameState) window.location.hash = '/';
   }
@@ -20,7 +20,7 @@ class PokerGameRoomContainer extends React.Component {
 
   render() {
     return Object.keys(this.props.gameState).length ?  (
-      <PokerGameRoom closeChannel={this.closeChannel.bind(this)} players={this.props.gameState.playerContainer.players} spread={spreadToCardArray(this.props.gameState.spread)}/>
+      <PokerGameRoomView closeChannel={this.closeChannel.bind(this)} players={this.props.gameState.playerContainer.players} spread={spreadToCardArray(this.props.gameState.spread)}/>
     ) : <div></div>
   }
 };
@@ -45,4 +45,4 @@ const mapStateToProps = (state) => {
 };
 
 
-export default connect(mapStateToProps, null)(PokerGameRoomContainer);
+export default connect(mapStateToProps, null)(PokerGameRoomViewContainer);

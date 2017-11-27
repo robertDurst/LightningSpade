@@ -11,7 +11,7 @@
 */
 
 import React from 'react';
-import '../stylesheets/Player.css';
+import '../stylesheets/Card.css';
 
 export default ({card}) => {
     let cardUrl;
@@ -176,9 +176,9 @@ export default ({card}) => {
         cardUrl = undefined;
     }
     return (
-      <div className={'card-container'}>
+      <div className={'Card__container'}>
         {
-          cardUrl ? <img className={'card'} src={"http://svgur.com/i/" + cardUrl.split("/")[4]} alt={'card'}/> : <div/>
+          cardUrl ? <img className={'Card'} src={"http://svgur.com/i/" + cardUrl.split("/")[4]} alt={'Card Image'}/> : <div/>
         }
       </div>
     );

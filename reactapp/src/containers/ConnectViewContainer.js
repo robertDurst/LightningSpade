@@ -5,16 +5,16 @@
 // the view according to the node's current state.
 
 import React from 'react';
-import LNConnect from '../components/LNConnect';
+import ConnectView from '../components/ConnectView';
 import io from 'socket.io-client';
 import { socketConnect, channelConnect, channelPending } from '../actions/index';
 import { connect } from 'react-redux';
 
-class LNConnectContainer extends React.Component {
+class ConnectViewContainer extends React.Component {
 componentDidMount() {
-    const connected_socket = io("http://localhost:3001");
+    const connectedSocket = io("http://localhost:3001");
       var self = this;
-      connected_socket.on("CONNECT_SUCCESS", function(data){
+      connectedSocket.on("CONNECT_SUCCESS", function(data){
         alert("Node is connected!")
         if(data.pending_closed_channels || data.pending_open_channels){
           self.props.onChannelPending(data.channel_data);
@@ -27,11 +27,11 @@ componentDidMount() {
         else window.location.hash = '/main';
       });
 
-      connected_socket.on("CONNECT_FAILURE", function(data){
+      connectedSocket.on("CONNECT_FAILURE", function(data){
         alert("Failure!")
       });
 
-    this.props.onSocketConnect(connected_socket);
+    this.props.onSocketConnect(connectedSocket);
   }
 
   clickHandler() {
@@ -40,7 +40,7 @@ componentDidMount() {
 
   render() {
     return (
-      <LNConnect clickHandler={this.clickHandler.bind(this)}/>
+      <ConnectView clickHandler={this.clickHandler.bind(this)}/>
     );
   }
 };
@@ -61,4 +61,4 @@ const mapStateToProps = (state) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LNConnectContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ConnectViewContainer);

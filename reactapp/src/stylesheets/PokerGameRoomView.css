@@ -1,4 +1,4 @@
-.pokergameroom-container {
+.PokerGameRoomView__container {
   background-color: #FFCA28;
   height: 100%;
   width: 100%;
@@ -6,42 +6,31 @@
   justify-content: center;
   align-items: center;
 }
-
-.pokergameroom {
+.PokerGameRoomView {
   height: 80%;
   width: 95%;
   display: flex;
 }
-
-.left_player-container, .right_player-container {
+.PokerGameRoomView__left_player_container, .PokerGameRoomView__right_player_container {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
-.body_pokertable-container {
+.PokerGameRoomView__body {
   flex: 6;
   display: flex;
   flex-direction: column;
 }
-
-.pokertable-container {
+.PokerGameRoomView__pokertable_container {
   flex: 4;
   background-color: green;
   border-radius: 1%;
   border: 5px solid brown;
 }
-
-.top-player-container, .bottom-player-container {
+.PokerGameRoomView__top_player_container, .PokerGameRoomView__bottom_player_container {
   flex: 1;
   display: flex;
   justify-content:space-around;
   align-items: center;
-}
-
-.player {
-  background-color: black;
-  width: 50px;
-  height: 50px;
 }

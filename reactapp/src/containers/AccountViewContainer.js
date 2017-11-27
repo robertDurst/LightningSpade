@@ -1,11 +1,11 @@
-// This file contains the main page container. This deals with
-// the logic that comes with the main page component.
+// This file contains the account page container. This deals with
+// the logic that comes with the account page component.
 
 import React from 'react';
-import LNMainPage from '../components/LNMainPage';
+import AccountView from '../components/AccountView';
 import { connect } from 'react-redux';
 
-class LNMainPageContainer extends React.Component {
+class AccountViewContainer extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
@@ -58,7 +58,7 @@ class LNMainPageContainer extends React.Component {
 
   render() {
     return (
-      <LNMainPage
+      <AccountView
         peers={this.state.peers}
         openChannel={this.openChannel.bind(this)}
         disconnectPeer={this.disconnectPeer.bind(this)}
@@ -76,4 +76,4 @@ const mapStateToProps = (state) => {
 };
 
 
-export default connect(mapStateToProps, null)(LNMainPageContainer);
+export default connect(mapStateToProps, null)(AccountViewContainer);

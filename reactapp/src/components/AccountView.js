@@ -1,8 +1,13 @@
+// This file contains the account view component.
+
 import React, { Component } from 'react';
-import '../stylesheets/LNMainPage.css';
-import { Paper, RaisedButton, Dialog, FlatButton, TextField } from 'material-ui';
+import '../stylesheets/AccountView.css';
+import { RaisedButton, Dialog, FlatButton, TextField } from 'material-ui';
 import AddConnectionIcon from 'material-ui/svg-icons/social/person-add';
 import DisconnectIcon from 'material-ui/svg-icons/content/clear';
+import PeerList from './PeerList';
+import AccountHeader from './AccountHeader';
+import PeerConnectionPopup from './PeerConnectionPopup';
 
 class LNConnect extends Component {
   constructor(props) {
@@ -96,58 +101,24 @@ class LNConnect extends Component {
 
     const actions_connect = [
       <FlatButton
-        label="Cancel"
+        label={'Cancel'}
         primary={true}
         onClick={this.handleClose.bind(this)}
       />,
       <FlatButton
-        label="Connect"
+        label={'Connect'}
         primary={true}
         onClick={this.handlePeerOption.bind(this, 'Connect')}
       />
     ];
 
-    return (
-      <div className={'LNMainPage_container'}>
 
-        <div className={'Header_container'}>
-          <RaisedButton
-            icon={<AddConnectionIcon />}
-            label="Connect"
-            labelColor={'white'}
-            backgroundColor={'green'}
-            className={'connect_button'}
-            onClick={this.handleClick_Connect.bind(this)}
-          />
-          <h1 className={'Funds_label'}>Funds: {this.props.balance/100000000.0} BTC</h1>
-        </div>
-        <div className={'Peer_container'}>
-          <div className={'Peer_list_content_container'}>
-            <div className={'Peer_list_content'}>
-              <Paper
-                zDepth={4}
-                className={'Peer_list'}
-                >
-                  {
-                    this.props.peers.map( x => {
-                        return (
-                          <div
-                            onClick={this.handleClick.bind(this, x)}
-                            key={x.peer_id}
-                            id={x.peer_id}
-                            className={'peer_connection_item_container'}
-                            >
-                            <p className={'peer_id_display'}>Peer Id: {x.peer_id}</p>
-                            <p className={'pubkey_display'}>PubKey: {x.pub_key}</p>
-                            <p className={'ip_address_display'}>Address: {x.address}</p>
-                          </div>
-                        )
-                    })
-                  }
-              </Paper>
-            </div>
-          </div>
-          <div className={'Peer_list_button_container'}>
+
+    return (
+      <div className={'AccountView__container'}>
+        <AccountHeader handleClick={this.handleClick_Connect.bind(this)} balance={this.props.balance}/>
+        <PeerList handleClick={this.handleClick.bind(this)} peers={this.props.peers} />
+        <div className={'AccountView__peerlistbutton_container'}>
             <RaisedButton
               icon={<DisconnectIcon />}
               label="Disconnect From All"
@@ -156,7 +127,6 @@ class LNConnect extends Component {
               className={'disconnect_button'}
             />
           </div>
-        </div>
         <Dialog
           title="Peer Options"
           actions={actions}
@@ -166,23 +136,8 @@ class LNConnect extends Component {
           <p>PK Address: {this.state.selectedPeer.pub_key}</p>
           <p>Ip Address:{this.state.selectedPeer.address}</p>
         </Dialog>
+      <PeerConnectionPopup handleInputNewPeer={this.handleInputNewPeer.bind(this)} open={this.state.open_connect} actions_connect={actions_connect}/>
 
-        <Dialog
-          title="Connect To a Peer"
-          actions={actions_connect}
-          modal={true}
-          open={this.state.open_connect}
-        >
-          <TextField
-            hintText="Public Key Address"
-            onChange={this.handleInputNewPeer.bind(this, 'pk')}
-          />
-          <br />
-          <TextField
-            hintText="Host_IP:Port"
-            onChange={this.handleInputNewPeer.bind(this, 'ip')}
-          />
-        </Dialog>
       </div>
     );
   }

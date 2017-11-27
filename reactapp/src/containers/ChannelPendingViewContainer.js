@@ -3,11 +3,11 @@
 // TODO consolidate socket logic to a single container of sorts.
 
 import React from 'react';
-import LNChannelPending from '../components/LNChannelPending';
+import ChannelPendingView from '../components/ChannelPendingView';
 import { connect } from 'react-redux';
 import { channelConnect, channelDisconnect } from '../actions/index';
 
-class LNChannelPendingContainer extends React.Component {
+class ChannelPendingViewContainer extends React.Component {
   componentDidMount() {
     if(!this.props.socket) window.location.hash = '/';
     else {
@@ -25,7 +25,7 @@ class LNChannelPendingContainer extends React.Component {
 
   render() {
     return (
-      <LNChannelPending />
+      <ChannelPendingView />
     );
   }
 };
@@ -46,4 +46,4 @@ const mapStateToProps = (state) => {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(LNChannelPendingContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ChannelPendingViewContainer);

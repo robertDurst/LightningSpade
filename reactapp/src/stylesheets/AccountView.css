@@ -1,12 +1,11 @@
-.LNMainPage_container {
+.AccountView__container {
   background-color: #FFCA28;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
 }
-
-.Header_container {
+.AccountView__header_container {
   flex: 1;
   width: 96%;
   display: flex;
@@ -14,67 +13,58 @@
   justify-content: space-between;
   margin-left: 2%;
 }
-
-.connect_button {
+.AccountView__connectbutton {
   flex: 1;
 }
-
 @media (max-width: 1633px) {
-  .connect_button {
+  .AccountView__connectbutton {
     flex: 1.5;
   }
 }
-
 @media (max-width: 1170px) {
-  .connect_button {
+  .AccountView__connectbutton {
     flex: 2;
   }
 }
-
 @media (max-width: 897px) {
-  .connect_button {
+  .AccountView__connectbutton {
     flex: 2.5;
   }
 }
-
 @media (max-width: 750px) {
-  .connect_button {
+  .AccountView__connectbutton {
     flex: 3;
   }
 }
-
-.Funds_label {
+.AccountView__fundslabel {
   font-size: 25pt;
   flex: 11;
   text-align: right;
 }
-
-.Peer_container {
+.AccountView__peer_container {
   flex: 10;
   width: 100%;
   display: flex;
   flex-direction: column;
 }
-
-.Peer_list_content_container {
+.AccountView__peerlist_content_container {
   flex: 15;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
-.Peer_list_content {
+.AccountView__peerlist_content {
   width: 50%;
   height: 95%;
 }
 
-.Peer_list {
+.AccountView__peerlist {
   width: 100%;
   height: 100%;
 }
 
-.Peer_list_button_container {
+.AccountView__peerlistbutton_container {
   flex: 1;
   width: 100%;
   display: flex;
@@ -82,11 +72,7 @@
   align-items: center;
 }
 
-.disconnect_button {
-
-}
-
-.peer_connection_item_container {
+.AccountView__peerconnectionitem_container {
   overflow: hidden;
   border: 1px solid #BDBDBD;
   display: flex;
@@ -94,25 +80,13 @@
   padding: 5px;
 }
 
-.peer_connection_item_container:hover {
+.AccountView__peerconnectionitem_container:hover {
   background-color: #BDBDBD;
   cursor: pointer;
 }
 
-.peer_id_display, .pubkey_display, .ip_address_display {
+.AccountView__peeriddisplay, .AccountView__pubkeydisplay, .AccountView__ipaddressdisplay {
   font-size: 10pt;
   margin: 0;
   padding: 0
-}
-
-.peer_id_display {
-
-}
-
-.pubkey_display {
-
-}
-
-.ip_address_display {
-
 }

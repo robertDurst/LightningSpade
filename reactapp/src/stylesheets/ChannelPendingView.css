@@ -1,4 +1,4 @@
-.LNChannelPending_container {
+.ChannelPendingView__container {
   background-color: #FFCA28;
   width: 100%;
   height: 100%;
@@ -7,8 +7,7 @@
   justify-content: center;
   flex-direction: column;
 }
-
-img {
+.ChannelPendingView__img {
   height: 10%;
   width: 10%;
 }

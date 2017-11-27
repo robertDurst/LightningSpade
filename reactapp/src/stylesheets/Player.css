@@ -1,10 +1,9 @@
-.individual-player-container-empty {
+.Player__container-empty {
   background-color: #FFCA28;
   width: 50px;
   height: 50px;
 }
-
-.individual-player-container {
+.Player__container {
   background-color: black;
   width: 50px;
   height: 50px;

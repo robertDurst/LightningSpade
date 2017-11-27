@@ -10,7 +10,7 @@ import Card from "./Card";
 // way to keep the spacing and card placement consistent
 // with flexbox.
 export default ({spread}) => (
-  <div className={'spread-container'}>
+  <div className={'PokerTable__spread_container'}>
     <Card card={spread[0]} />
     <Card card={spread[1]} />
     <Card card={spread[2]} />

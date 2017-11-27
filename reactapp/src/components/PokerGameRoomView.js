@@ -3,38 +3,38 @@
 // table and is Lightning Spade's main game room.
 
 import React from 'react';
-import '../stylesheets/PokerGameRoom.css';
+import '../stylesheets/PokerGameRoomView.css';
 import {RaisedButton} from 'material-ui/';
 import Player from './Player';
 import PokerTable from './PokerTable';
 
 export default ({players, spread, closeChannel}) => (
-  <div className={'pokergameroom-container'}>
+  <div className={'PokerGameRoomView__container'}>
     <RaisedButton
-      label="Leave"
+      label={'Leave'}
       onClick={() => closeChannel()}
       style={{position: 'absolute', left: 0, top: 0}}
     />
-    <div className={'pokergameroom'}>
-        <div className={'left_player-container'}>
+    <div className={'PokerGameRoomView'}>
+        <div className={'PokerGameRoomView__left_player_container'}>
           <Player player={players[0]}/>
         </div>
-        <div className={'body_pokertable-container'}>
-          <div className={'top-player-container'}>
+        <div className={'PokerGameRoomView__body'}>
+          <div className={'PokerGameRoomView__top_player_container'}>
             <Player player={players[1]}/>
             <Player player={players[2]}/>
             <Player player={players[3]}/>
           </div>
-          <div className={'pokertable-container'}>
+          <div className={'PokerGameRoomView__pokertable_container'}>
             <PokerTable spread={spread}/>
           </div>
-          <div className={'bottom-player-container'}>
+          <div className={'PokerGameRoomView__bottom_player_container'}>
             <Player player={players[4]}/>
             <Player player={players[5]}/>
             <Player player={players[6]}/>
           </div>
         </div>
-        <div className={'right_player-container'}>
+        <div className={'PokerGameRoomView__right_player_container'}>
           <Player player={players[7]}/>
         </div>
     </div>
