@@ -1,3 +1,5 @@
+// This file contains the Account Header Component for the Account View Component: AccountView.js
+
 import React from 'react';
 import '../stylesheets/AccountView.css';
 import { RaisedButton } from 'material-ui';
