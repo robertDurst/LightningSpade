@@ -4,11 +4,11 @@
 // some explanation for LN and Bitcoin noobs.
 
 import React from 'react';
-import '../stylesheets/LNChannelPending.css';
+import '../stylesheets/ChannelPendingView.css';
 
 export default () => (
-  <div className={'LNChannelPending_container'}>
-    <img src='https://media.giphy.com/media/26u4nsirFNig64Wwo/giphy.gif' alt='img'/>
-    <h1>Channel Pending the mining of a block, please wait!</h1>
+  <div className={'ChannelPendingView__container'}>
+    <img className={'ChannelPendingView__img'} src={'https://media.giphy.com/media/26u4nsirFNig64Wwo/giphy.gif'} alt={'Loading GIF'}/>
+    <h1>Channel pending the mining of a block, please wait!</h1>
   </div>
 );

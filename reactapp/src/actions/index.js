@@ -46,3 +46,21 @@ export function channelDisconnect() {
     type: types.CHANNEL_DISCONNECT,
   };
 }
+
+// Called upon peer update
+// Input: peers
+export function peersUpdate(peers) {
+  return {
+    type: types.PEERS_UPDATE,
+    peers
+  };
+}
+
+// Called upon balance update
+// Input: balance
+export function balanceUpdate(balance) {
+  return {
+    type: types.BALANCE_UPDATE,
+    balance
+  };
+}

@@ -1,4 +1,4 @@
-.LNConnect_container {
+.ConnectView__container {
   background-color: #FFCA28;
   width: 100%;
   height: 100%;
@@ -7,11 +7,6 @@
   justify-content: center;
   flex-direction: column;
 }
-
-.connect_button_connectNode {
-
-}
-
-.connect_title_text {
+.ConnectView__title {
   font-size: 100pt;
 }

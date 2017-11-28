@@ -1,0 +1,9 @@
+.Card {
+  width: 100%;
+  height: 100%;
+}
+.Card__container {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+}

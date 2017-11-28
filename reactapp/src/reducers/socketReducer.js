@@ -3,10 +3,12 @@
 // connection across views.
 
 import * as types from '../actions/types';
+import SocketHandler from '../utils/SocketHandler';
 
 const socketReducer = (state = "", action) => {
   switch (action.type) {
     case types.SOCKET_CONNECT:
+      SocketHandler(action.socket)
       return action.socket;
     case types.SOCKET_DISCONNECT:
       return "";
