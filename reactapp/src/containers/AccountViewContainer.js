@@ -4,13 +4,17 @@
 import React from 'react';
 import AccountView from '../components/AccountView';
 import { connect } from 'react-redux';
+import { peersUpdate, balanceUpdate } from '../actions/index';
 
 class AccountViewContainer extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-        peers: [],
-        balance: 'LOADING',
+        open: false,
+        open_connect: false,
+        selectedPeer: {},
+        newPeer_pk: "",
+        newPeer_ip: ""
       }
   }
 
@@ -20,50 +24,75 @@ class AccountViewContainer extends React.Component {
     } else {
       this.props.socket.emit('GET_PEERS');
       this.props.socket.emit('GET_WALLET');
-
-      const self = this;
-      this.props.socket.on("PEER_INFO", function(data){
-        self.setState({
-          peers: data.peers
-        })
-      });
-
-      this.props.socket.on("WALLET_INFO", function(data){
-         self.setState({
-           balance: data
-         })
-      });
-
-      this.props.socket.on("PENDING_CHANNEL", function(data){
-        window.location.hash = '/pendingchannel';
-      });
-
-      this.props.socket.on("CONNECT_FAILURE", function(data){
-        alert("Failure!")
-      });
     }
   }
 
-  openChannel(peer_info) {
-    this.props.socket.emit('OPEN_CHANNEL', peer_info);
+  handleInputNewPeer(option, e) {
+    if(option === 'pk') this.setState({newPeer_pk: e.target.value})
+    else if(option === 'ip') this.setState({newPeer_ip: e.target.value})
   }
 
-  disconnectPeer(peer_info) {
-    this.props.socket.emit('DISCONNECT_PEER', peer_info);
+  handleClick(peer_info, e) {
+    this.setState({
+      open: true,
+      selectedPeer: peer_info
+    });
   }
 
-  connectPeer(peer_info) {
-    this.props.socket.emit('CONNECT_PEER', peer_info);
+  handleClick_Connect() {
+    this.setState({open_connect: true});
+  }
+
+  handlePeerOption(option) {
+    switch(option) {
+      case 'Disconnect':
+        this.props.socket.emit('DISCONNECT_PEER', this.state.selectedPeer);
+        this.setState({
+          open: false,
+          selectedPeer: {}
+        });
+        break;
+      case 'Open Channel':
+        this.props.socket.emit('OPEN_CHANNEL', this.state.selectedPeer);
+        this.setState({
+          open: false,
+          selectedPeer: {}
+        });
+        break;
+      case 'Connect':
+        this.props.socket.emit('CONNECT_PEER', {ip: this.state.newPeer_ip, pk: this.state.newPeer_pk});
+        this.setState({
+          open_connect: false,
+          newPeer_ip: "",
+          newPeer_pk: ""
+        });
+        break;
+    }
+  }
+
+  handleClose() {
+    this.setState({
+      open: false,
+      open_connect: false,
+      selectedPeer: {},
+      newPeer_ip: "",
+      newPeer_pk: ""
+    });
   }
 
   render() {
     return (
       <AccountView
-        peers={this.state.peers}
-        openChannel={this.openChannel.bind(this)}
-        disconnectPeer={this.disconnectPeer.bind(this)}
-        connectPeer={this.connectPeer.bind(this)}
-        balance={this.state.balance}
+        handleInputNewPeer={this.handleInputNewPeer.bind(this)}
+        handleClick={this.handleClick.bind(this)}
+        handleClick_Connect={this.handleClick_Connect.bind(this)}
+        handlePeerOption={this.handlePeerOption.bind(this)}
+        handleClose={this.handleClose.bind(this)}
+        selectedPeer={this.state.selectedPeer}
+        peers={this.props.userState.peers}
+        open={this.state.open}
+        open_connect={this.state.open_connect}
+        balance={this.props.userState.balance}
       />
     );
   }
@@ -71,7 +100,8 @@ class AccountViewContainer extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    socket: state.socket
+    socket: state.socket,
+    userState: state.userState,
   }
 };
 

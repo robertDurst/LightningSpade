@@ -7,48 +7,17 @@
 import React from 'react';
 import ConnectView from '../components/ConnectView';
 import io from 'socket.io-client';
-import { socketConnect, channelConnect, channelPending } from '../actions/index';
+import { socketConnect } from '../actions/index';
 import { connect } from 'react-redux';
 
 class ConnectViewContainer extends React.Component {
-componentDidMount() {
-    const connectedSocket = io("http://localhost:3001");
-      var self = this;
-      connectedSocket.on("CONNECT_SUCCESS", function(data){
-        alert("Node is connected!")
-        if(data.pending_closed_channels || data.pending_open_channels){
-          self.props.onChannelPending(data.channel_data);
-          window.location.hash = '/pendingchannel';
-        }
-        else if(data.open_channels){
-          self.props.onChannelOpen(data.channel_data, data.gameState);
-          window.location.hash = '/pokergameroom';
-        }
-        else window.location.hash = '/main';
-      });
-
-      connectedSocket.on("CONNECT_FAILURE", function(data){
-        alert("Failure!")
-      });
-
-    this.props.onSocketConnect(connectedSocket);
-  }
-
-  clickHandler() {
-    this.props.socket.emit("CONNECT");
-  }
-
-  render() {
-    return (
-      <ConnectView clickHandler={this.clickHandler.bind(this)}/>
-    );
-  }
+  componentDidMount() { this.props.onSocketConnect(io("http://localhost:3001")) }
+  clickHandler() { this.props.socket.emit("CONNECT") }
+  render() { return <ConnectView clickHandler={this.clickHandler.bind(this)}/> }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onChannelOpen: (channel, gameState) => dispatch(channelConnect(channel, gameState)),
-    onChannelPending: (channel) => dispatch(channelPending(channel)),
     onSocketConnect: (socket) => dispatch(socketConnect(socket)),
   };
 };
@@ -56,8 +25,6 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     socket: state.socket,
-    channel: state.channel,
-    gameState: state.gameState
   }
 };
 

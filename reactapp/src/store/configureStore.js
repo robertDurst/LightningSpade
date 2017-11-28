@@ -10,3 +10,5 @@ export function configureStore(initialState) {
         initialState,
     );
 }
+
+export const store = configureStore()

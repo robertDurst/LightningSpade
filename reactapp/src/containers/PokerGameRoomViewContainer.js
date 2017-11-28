@@ -6,17 +6,8 @@ import PokerGameRoomView from '../components/PokerGameRoomView';
 import { connect } from 'react-redux';
 
 class PokerGameRoomViewContainer extends React.Component {
-  componentWillMount() {
-    if(!this.props.socket || !this.props.gameState) window.location.hash = '/';
-  }
-
-  closeChannel() {
-    this.props.socket.emit('CLOSE_CHANNEL', this.props.channel);
-
-    this.props.socket.on('PENDING_CHANNEL', function(){
-      window.location.hash = '/pendingchannel';
-    })
-  }
+  componentWillMount() { if(!this.props.socket || !this.props.gameState) window.location.hash = '/' }
+  closeChannel() { this.props.socket.emit('CLOSE_CHANNEL', this.props.channel) }
 
   render() {
     return Object.keys(this.props.gameState).length ?  (

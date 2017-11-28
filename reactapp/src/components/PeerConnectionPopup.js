@@ -1,9 +1,6 @@
 import React from 'react';
 import '../stylesheets/AccountView.css';
-import { Dialog, TextField, FlatButton } from 'material-ui';
-import AddConnectionIcon from 'material-ui/svg-icons/social/person-add';
-
-
+import { Dialog, TextField } from 'material-ui';
 
 export default ({handleInputNewPeer, open, actions_connect}) => (
   <Dialog
