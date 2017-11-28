@@ -46,7 +46,6 @@ export default (socket) => {
   });
 
   socket.on("GAME_STATE_UPDATE", function(data){
-    console.log("HERE");
      store.dispatch(gameStateUpdate(data));
   });
 }

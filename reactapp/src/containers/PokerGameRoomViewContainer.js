@@ -9,11 +9,11 @@ class PokerGameRoomViewContainer extends React.Component {
   componentWillMount() { if(!this.props.socket || !this.props.gameState) window.location.hash = '/' }
   closeChannel() { this.props.socket.emit('CLOSE_CHANNEL', this.props.channel) }
   nextState() {
-    console.log("here");
     this.props.socket.emit('NEXT_STATE')
   }
 
   render() {
+    console.log(this.props.gameState);
     return Object.keys(this.props.gameState).length ?  (
       <PokerGameRoomView
         closeChannel={this.closeChannel.bind(this)}

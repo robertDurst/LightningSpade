@@ -11,7 +11,10 @@ import { socketConnect } from '../actions/index';
 import { connect } from 'react-redux';
 
 class ConnectViewContainer extends React.Component {
-  componentDidMount() { this.props.onSocketConnect(io("http://localhost:3001")) }
+  componentDidMount() {
+    let sockets = io(process.env.REACT_APP_BACKEND_ADDRESS)
+    this.props.onSocketConnect(sockets)
+  }
   clickHandler() { this.props.socket.emit("CONNECT") }
   render() { return <ConnectView clickHandler={this.clickHandler.bind(this)}/> }
 };
