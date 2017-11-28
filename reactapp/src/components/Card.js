@@ -160,16 +160,16 @@ export default ({card}) => {
       case "13_Diamond":
         cardUrl = "http://svgur.com/i/3yV.svg"
         break;
-      case "14_Heart":
+      case "1_Heart":
         cardUrl = "http://svgur.com/i/3yX.svg"
         break;
-      case "14_Spade":
+      case "1_Spade":
         cardUrl = "http://svgur.com/i/3yt.svg"
         break;
-      case "14_Club":
+      case "1_Club":
         cardUrl = "http://svgur.com/i/401.svg"
         break;
-      case "14_Diamond":
+      case "1_Diamond":
         cardUrl = "http://svgur.com/i/3yW.svg"
         break;
       default:

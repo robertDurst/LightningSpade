@@ -8,6 +8,8 @@ const gameStateReducer = (state = [], action) => {
       return action.gameState;
     case types.CHANNEL_DISCONNECT:
       return [];
+    case types.GAME_STATE_UPDATE:
+      return action.gameState;
     default:
       return state;
   }

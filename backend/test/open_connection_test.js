@@ -35,7 +35,7 @@ describe('Initial State', function() {
   these values, your test will fail!
 */
 
-const peer_pk = "027ee89ab830280075703667bc254d05f17f12490adbf25075c0a7ea9ad1b4ea5f";
+const peer_pk = "02b123a97eff7a702af594ee0d58b65448dca3df387b83e9755a44d2873911566c";
 const peer_ip = "127.0.0.1:10012";
 
 describe('Connect to a specified peer', function(){
