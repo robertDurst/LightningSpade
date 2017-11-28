@@ -8,22 +8,28 @@ import AccountFooter from './AccountFooter';
 import PeerConnectionPopup from './PeerConnectionPopup';
 import PeerOptionsPopup from './PeerOptionsPopup';
 
-export default () => (
+export default ({handleClick_Connect, handleClick, balance, peers, selectedPeer, open, handlePeerOption, handleClose, handleInputNewPeer, open_connect}) => (
   <div className={'AccountView__container'}>
-    <AccountHeader handleClick={this.props.handleClick_Connect.bind(this)} balance={this.props.balance}/>
-    <PeerList handleClick={this.props.handleClick.bind(this)} peers={this.props.peers} />
+    <AccountHeader
+      handleClick={handleClick_Connect}
+      balance={balance}
+    />
+    <PeerList
+      handleClick={handleClick}
+      peers={peers}
+    />
     <AccountFooter />
     <PeerOptionsPopup
-      selectedPeer={this.props.selectedPeer}
-      open={this.props.open}
-      handlePeerOption={this.props.handlePeerOption}
-      handleClose={this.props.handleClose}
+      selectedPeer={selectedPeer}
+      open={open}
+      handlePeerOption={handlePeerOption}
+      handleClose={handleClose}
     />
     <PeerConnectionPopup
-      handleInputNewPeer={this.props.handleInputNewPeer.bind(this)}
-      open={this.props.open_connect}
-      handlePeerOption={this.props.handlePeerOption}
-      handleClose={this.props.handleClose}
+      handleInputNewPeer={handleInputNewPeer}
+      open={open_connect}
+      handlePeerOption={handlePeerOption}
+      handleClose={handleClose}
     />
   </div>
 );
