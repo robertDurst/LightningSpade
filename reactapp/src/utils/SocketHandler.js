@@ -1,4 +1,4 @@
-import { channelConnect, channelDisconnect, channelPending, peersUpdate, balanceUpdate } from '../actions/index';
+import { channelConnect, channelDisconnect, channelPending, peersUpdate, balanceUpdate, gameStateUpdate } from '../actions/index';
 import { store } from '../store/configureStore';
 
 export default (socket) => {
@@ -43,5 +43,10 @@ export default (socket) => {
 
   socket.on("WALLET_INFO", function(data){
      store.dispatch(balanceUpdate(data));
+  });
+
+  socket.on("GAME_STATE_UPDATE", function(data){
+    console.log("HERE");
+     store.dispatch(gameStateUpdate(data));
   });
 }

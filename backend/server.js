@@ -96,6 +96,10 @@ io.on('connection', function (socket) {
     }
   });
 
+  socket.on('NEXT_STATE', function(){
+    hostConnectionSocket.nextGameState(socket);
+  })
+
 });
 
 

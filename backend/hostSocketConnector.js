@@ -39,8 +39,16 @@ async function reconnect(address, socket, channel_info){
   });
 }
 
+function nextGameState(socket){
+  host_socket.emit('NEXT_STATE');
+  host_socket.on('GAME_STATE_UPDATE', function(gameState){
+    socket.emit('GAME_STATE_UPDATE', gameState);
+  })
+}
+
 
 module.exports = {
   connect,
-  reconnect
+  reconnect,
+  nextGameState
 }

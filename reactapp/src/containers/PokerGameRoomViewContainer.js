@@ -8,10 +8,19 @@ import { connect } from 'react-redux';
 class PokerGameRoomViewContainer extends React.Component {
   componentWillMount() { if(!this.props.socket || !this.props.gameState) window.location.hash = '/' }
   closeChannel() { this.props.socket.emit('CLOSE_CHANNEL', this.props.channel) }
+  nextState() {
+    console.log("here");
+    this.props.socket.emit('NEXT_STATE')
+  }
 
   render() {
     return Object.keys(this.props.gameState).length ?  (
-      <PokerGameRoomView closeChannel={this.closeChannel.bind(this)} players={this.props.gameState.playerContainer.players} spread={spreadToCardArray(this.props.gameState.spread)}/>
+      <PokerGameRoomView
+        closeChannel={this.closeChannel.bind(this)}
+        players={this.props.gameState.playerContainer.players}
+        spread={spreadToCardArray(this.props.gameState.spread)}
+        nextState={this.nextState.bind(this)}
+      />
     ) : <div></div>
   }
 };

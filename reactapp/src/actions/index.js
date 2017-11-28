@@ -64,3 +64,12 @@ export function balanceUpdate(balance) {
     balance
   };
 }
+
+// Called upon game state update
+// Input: game state
+export function gameStateUpdate(gameState) {
+  return {
+    type: types.GAME_STATE_UPDATE,
+    gameState
+  };
+}

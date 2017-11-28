@@ -8,12 +8,17 @@ import {RaisedButton} from 'material-ui/';
 import Player from './Player';
 import PokerTable from './PokerTable';
 
-export default ({players, spread, closeChannel}) => (
+export default ({players, spread, closeChannel, nextState}) => (
   <div className={'PokerGameRoomView__container'}>
     <RaisedButton
       label={'Leave'}
       onClick={() => closeChannel()}
       style={{position: 'absolute', left: 0, top: 0}}
+    />
+    <RaisedButton
+      label={'Next'}
+      onClick={() => nextState()}
+      style={{position: 'absolute', right: 0, top: 0}}
     />
     <div className={'PokerGameRoomView'}>
         <div className={'PokerGameRoomView__left_player_container'}>
