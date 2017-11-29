@@ -1,4 +1,4 @@
-import { channelConnect, channelDisconnect, channelPending, peersUpdate, balanceUpdate, gameStateUpdate } from '../actions/index';
+import { channelConnect, channelDisconnect, channelPending, peersUpdate, balanceUpdate, gameStateUpdate, userUpdate, userTurn } from '../actions/index';
 import { store } from '../store/configureStore';
 
 export default (socket) => {
@@ -45,7 +45,17 @@ export default (socket) => {
      store.dispatch(balanceUpdate(data));
   });
 
+  socket.on("USER_INFO", function(data){
+     store.dispatch(userUpdate(data));
+  });
+
   socket.on("GAME_STATE_UPDATE", function(data){
      store.dispatch(gameStateUpdate(data));
+  });
+
+  socket.on("YOUR_TURN", function(data){
+     store.dispatch(userTurn());
+     // alert('Your turn');
+     // socket.emit('MOVE_MADE', 'check');
   });
 }

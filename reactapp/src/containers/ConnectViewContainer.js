@@ -12,8 +12,11 @@ import { connect } from 'react-redux';
 
 class ConnectViewContainer extends React.Component {
   componentDidMount() {
-    let sockets = io(process.env.REACT_APP_BACKEND_ADDRESS)
-    this.props.onSocketConnect(sockets)
+    let socket = io(process.env.REACT_APP_BACKEND_ADDRESS)
+    this.props.onSocketConnect(socket);
+    socket.emit('GET_PEERS');
+    socket.emit('GET_WALLET');
+    socket.emit('GET_USER_INFO');
   }
   clickHandler() { this.props.socket.emit("CONNECT") }
   render() { return <ConnectView clickHandler={this.clickHandler.bind(this)}/> }

@@ -60,6 +60,10 @@ io.on('connection', function (socket) {
     socketHelper.getWalletBalance(socket);
   })
 
+  socket.on('GET_USER_INFO', function (data){
+    socketHelper.getUserInfo(socket);
+  })
+
   socket.on('OPEN_CHANNEL', function (peer) {
     const call = LightningUtils.openChannel(peer.pub_key, process.env.CHANNEL_AMOUNT);
 
@@ -80,6 +84,7 @@ io.on('connection', function (socket) {
         socket.emit('PENDING_CHANNEL');
       } else if(message.update === 'chan_close'){
         socket.emit('CLOSE_CHANNEL');
+        hostConnectionSocket.exitGame();
       }
     });
   });
@@ -103,7 +108,11 @@ io.on('connection', function (socket) {
   });
 
   socket.on('NEXT_STATE', function(){
-    hostConnectionSocket.nextGameState(socket);
+    hostConnectionSocket.nextGameState();
+  })
+
+  socket.on('MOVE_MADE', function(move){
+    hostConnectionSocket.moveMade(move);
   })
 
 });

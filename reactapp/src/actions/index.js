@@ -73,3 +73,23 @@ export function gameStateUpdate(gameState) {
     gameState
   };
 }
+
+export function userUpdate(userInfo) {
+  return {
+    type: types.USER_UPDATE,
+    userInfo
+  }
+}
+
+export function userTurn() {
+  return {
+    type: types.YOUR_TURN,
+  }
+}
+
+export function userMadeMove(move) {
+  return {
+    type: types.MADE_MOVE,
+    move
+  }
+}

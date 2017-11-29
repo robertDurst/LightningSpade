@@ -19,12 +19,7 @@ class AccountViewContainer extends React.Component {
   }
 
   componentDidMount() {
-    if(!this.props.socket) {
-      window.location.hash = '/';
-    } else {
-      this.props.socket.emit('GET_PEERS');
-      this.props.socket.emit('GET_WALLET');
-    }
+
   }
 
   handleInputNewPeer(option, e) {

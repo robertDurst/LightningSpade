@@ -4,6 +4,7 @@
 import React from 'react';
 import PokerGameRoomView from '../components/PokerGameRoomView';
 import { connect } from 'react-redux';
+import { userMadeMove } from '../actions/index';
 
 class PokerGameRoomViewContainer extends React.Component {
   componentWillMount() { if(!this.props.socket || !this.props.gameState) window.location.hash = '/' }
@@ -11,15 +12,31 @@ class PokerGameRoomViewContainer extends React.Component {
   nextState() {
     this.props.socket.emit('NEXT_STATE')
   }
+  makeMove() {
+    this.props.socket.emit('MOVE_MADE');
+    this.props.onUserMadeMove('bet');
+  }
 
   render() {
-    console.log(this.props.gameState);
+    console.log(this.props.userState);
+    let winner;
+    if(Object.keys(this.props.gameState).length) {
+      if(this.props.gameState.winner) {
+        winner = this.props.gameState.playerContainer.players[this.props.gameState.winner[0]];
+      }
+      this.props.gameState.playerContainer.players.forEach( x => x.isUser = (x.pubKey === this.props.userState.userInfo.identity_pubkey));
+      this.props.gameState.playerContainer.players = this.props.gameState.playerContainer.players.sort( (x,y) => y.isUser - x.isUser);
+    }
     return Object.keys(this.props.gameState).length ?  (
       <PokerGameRoomView
         closeChannel={this.closeChannel.bind(this)}
         players={this.props.gameState.playerContainer.players}
         spread={spreadToCardArray(this.props.gameState.spread)}
         nextState={this.nextState.bind(this)}
+        winner={winner}
+        stateNum={this.props.gameState.state}
+        makeMove={this.makeMove.bind(this)}
+        userState={this.props.userState.state}
       />
     ) : <div></div>
   }
@@ -36,13 +53,20 @@ function spreadToCardArray(spread){
   return returnArr;
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onUserMadeMove: (move) => dispatch(userMadeMove(move)),
+  };
+};
+
 const mapStateToProps = (state) => {
   return {
     socket: state.socket,
     channel: state.channel,
     gameState: state.gameState,
+    userState: state.userState,
   }
 };
 
 
-export default connect(mapStateToProps, null)(PokerGameRoomViewContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(PokerGameRoomViewContainer);
