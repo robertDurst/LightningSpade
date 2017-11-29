@@ -46,15 +46,31 @@ async function reconnect(address, socket, channel_info){
   host_socket.on('GAME_STATE_UPDATE', function(gameState){
     socket.emit('GAME_STATE_UPDATE', gameState);
   })
+
+  host_socket.on('YOUR_TURN', function(gameState){
+    socket.emit('YOUR_TURN', gameState);
+  })
 }
 
-function nextGameState(socket){
+function nextGameState(){
   host_socket.emit('NEXT_STATE');
+}
+
+function moveMade(move){
+  host_socket.emit('MOVE_MADE', move);
+}
+
+async function exitGame(){
+  let response = await LightningUtils.getInfo();
+  const pub_key = response.identity_pubkey;
+  host_socket.emit('EXIT_GAME', pub_key);
 }
 
 
 module.exports = {
   connect,
   reconnect,
-  nextGameState
+  nextGameState,
+  moveMade,
+  exitGame
 }

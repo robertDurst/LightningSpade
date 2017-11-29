@@ -18,6 +18,15 @@ async function getWalletBalance(socket){
   }
 }
 
+async function getUserInfo(socket){
+  try {
+    const response = await LightningUtils.getInfo();
+    socket.emit("USER_INFO", response);
+  } catch(err) {
+    socket.emit("CONNECT_FAILURE");
+  }
+}
+
 function toHexString(buffer){
   var str = buffer.toString('hex')
 	var reversed = str.split("").reverse();
@@ -27,5 +36,6 @@ function toHexString(buffer){
 module.exports = {
   getPeers,
   getWalletBalance,
+  getUserInfo,
   toHexString
 }
