@@ -34,21 +34,21 @@ export default ({players, spread, closeChannel, nextState, winner, stateNum, mak
     </div>
     <div className={'PokerGameRoomView'}>
         <div className={'PokerGameRoomView__left_player_container'}>
-          <Player player={players[0]} winner={winner}/>
+          <Player player={players[0]} winner={winner} isReveal={stateNum === 8}/>
         </div>
         <div className={'PokerGameRoomView__body'}>
           <div className={'PokerGameRoomView__top_player_container'}>
-            <Player player={players[1]} winner={winner}/>
-            <Player player={players[2]} winner={winner}/>
-            <Player player={players[3]} winner={winner}/>
+            <Player player={players[1]} winner={winner} isReveal={stateNum === 8}/>
+            <Player player={players[2]} winner={winner} isReveal={stateNum === 8}/>
+            <Player player={players[3]} winner={winner} isReveal={stateNum === 8}/>
           </div>
           <div className={'PokerGameRoomView__pokertable_container'}>
             <PokerTable spread={spread}/>
           </div>
           <div className={'PokerGameRoomView__bottom_player_container'}>
-            <Player player={players[4]} winner={winner}/>
-            <Player player={players[5]} winner={winner}/>
-            <Player player={players[6]} winner={winner}/>
+            <Player player={players[4]} winner={winner} isReveal={stateNum === 8}/>
+            <Player player={players[5]} winner={winner} isReveal={stateNum === 8}/>
+            <Player player={players[6]} winner={winner} isReveal={stateNum === 8}/>
           </div>
         </div>
         <div className={'PokerGameRoomView__right_player_container'}>

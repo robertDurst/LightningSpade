@@ -18,11 +18,10 @@ class PokerGameRoomViewContainer extends React.Component {
   }
 
   render() {
-    console.log(this.props.userState);
     let winner;
     if(Object.keys(this.props.gameState).length) {
       if(this.props.gameState.winner) {
-        winner = this.props.gameState.playerContainer.players[this.props.gameState.winner[0]];
+        winner = this.props.gameState.playerContainer.players.filter( (x,i) => this.props.gameState.winner.indexOf(i) !== -1);
       }
       this.props.gameState.playerContainer.players.forEach( x => x.isUser = (x.pubKey === this.props.userState.userInfo.identity_pubkey));
       this.props.gameState.playerContainer.players = this.props.gameState.playerContainer.players.sort( (x,y) => y.isUser - x.isUser);

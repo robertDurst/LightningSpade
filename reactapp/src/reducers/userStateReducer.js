@@ -29,12 +29,19 @@ const userStateReducer = (state = {
      newState.state = state.state;
      return newState;
    case types.GAME_STATE_UPDATE:
-     if(state.state === 'watching' && action.gameState.state === 1 && action.gameState.playerContainer.players.filter( x => x.pubKey === state.userInfo.identity_pubkey)[0].hand.length) {
+     if(state.state === 'watching' && action.gameState.playerContainer.players.filter( x => x.pubKey === state.userInfo.identity_pubkey)[0].hand.length) {
        var newState = {};
        newState.peers = state.peers;
        newState.balance = state.balance;
        newState.userInfo = state.userInfo;
        newState.state = 'playing';
+       return newState;
+     } else if(action.gameState.state === 0 || action.gameState.state === 9) {
+       var newState = {};
+       newState.peers = state.peers;
+       newState.balance = state.balance;
+       newState.userInfo = state.userInfo;
+       newState.state = 'watching';
        return newState;
      } else {
        return state;
